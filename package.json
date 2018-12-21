@@ -1,0 +1,26 @@
+{
+  "name": "iNote-electron",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/main/index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/myworkspaces/iNote-electron.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/myworkspaces/iNote-electron/issues"
+  },
+  "homepage": "https://github.com/myworkspaces/iNote-electron#readme",
+  "devDependencies": {
+    "electron": "^4.0.0"
+  }
+}
