@@ -1,58 +1,5 @@
 import channel from './channel'
 
-// top: 顶级目录
-// change: {type: '', catalog: {}} 发生变更的目录
-// 重新生成目录结构
-function reGenerateCatalog (top, change) {
-  console.log('change', change)
-  function _updateSelf (parent) {
-    console.log('parent', parent)
-    if (parent['id'] === change.catalog.id) {
-      parent['label'] = change.catalog.label
-      return true
-    }
-    let children = parent['children']
-    if (children) {
-      for (let index in children) {
-        if (_updateSelf(children[index])) {
-          return false
-        }
-      }
-    }
-    return false
-  }
-  function _updateParent (parent) {
-
-  }
-  function _delete (parent) {
-    console.log('parent', parent)
-    if (parent['id'] === change.catalog.id) {
-      return true
-    }
-    let children = parent['children']
-    if (children) {
-      for (let index in children) {
-        if (_delete(children[index])) {
-          children.splice(index, 1)
-          return false
-        }
-      }
-    }
-    return false
-  }
-  switch (change.type) {
-    case 'updateSelf':
-      _updateSelf(top)
-      break
-    case 'updateParent':
-      _updateParent(top)
-      break
-    case 'delete':
-      _delete(top)
-      break
-    default:
-  }
-}
 // 重置全局目录结构
 function resetCatalog (store, payload) {
   try {
@@ -113,7 +60,8 @@ function addCatalog (store, payload) {
       label: '新建文件夹'
     }
     let key = '0'
-    let activeCatalog = store.state.catalog[0]
+    let activeCatalog = {...store.state.catalog[0]}
+    console.log(store.state.catalog)
     if (payload && payload.catalog) {
       newCatalog.parent_id = payload.catalog.id
       // 设置path
@@ -122,7 +70,7 @@ function addCatalog (store, payload) {
       const keyArr = key.split('-')
       // 读取当前目录结构
       keyArr.slice(1).forEach(index => {
-        activeCatalog = activeCatalog.children[index]
+        activeCatalog = {...activeCatalog.children[index]}
         path += activeCatalog.label + '/'
       })
       newCatalog.path = path + newCatalog.label
@@ -131,13 +79,11 @@ function addCatalog (store, payload) {
     // 异步操作
     catalogMessager.add(JSON.stringify(newCatalog), function (id) {
       newCatalog.id = id
-      store.commit('addCatalog', {
-        newCatalog: newCatalog
+      newCatalog.children = []
+      store.commit('reGenerateCatalog', {
+        type: 'add',
+        catalog: newCatalog
       })
-      if (activeCatalog.children == null) {
-        activeCatalog.children = []
-      }
-      activeCatalog.children.push(newCatalog)
       let newPayload = {
         catalog: store.state.catalog,
         catalogKv: store.state.catalogKv
@@ -179,7 +125,7 @@ function updateCatalog (store, payload) {
     if (payload && payload.catalog) {
       const catalogMessager = channel.get('catalogMessager')
       catalogMessager.update(JSON.stringify(payload.catalog), function () {
-        reGenerateCatalog(store.state.catalog[0], {
+        store.commit('reGenerateCatalog', {
           type: 'updateSelf',
           catalog: payload.catalog
         })
@@ -213,21 +159,6 @@ function activeCatalog (store, payload) {
     if (payload && payload.catalog && payload.catalog.id) {
       catalog.id = payload.catalog.id
       catalog.label = payload.catalog.label
-      const key = store.state.catalogKv[catalog.id]
-      const keyArr = key.split('-')
-      // 记录当前目录树结构
-      let temp = store.state.catalog[0]
-      keyArr.slice(1).forEach(index => {
-        temp = temp.children[index]
-      })
-      if (temp.children) {
-        temp.children.forEach(element => {
-          catalog.children.push({
-            id: element.id,
-            label: element.label
-          })
-        })
-      }
     }
     const noteMessager = channel.get('noteMessager')
     noteMessager.findAllByCatalogId(catalog.id, function (noteListJson) {
@@ -307,7 +238,7 @@ function deleteCatalog (store, payload) {
     const catalogMessager = channel.get('catalogMessager')
     catalogMessager.delete(JSON.stringify(payload.node), function () {
       store.commit('deleteNode')
-      reGenerateCatalog(store.state.catalog[0], {
+      store.commit('reGenerateCatalog', {
         type: 'delete',
         catalog: payload.node
       })

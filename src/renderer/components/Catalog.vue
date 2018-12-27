@@ -1,10 +1,15 @@
 <template>
     <el-tree
+    :node-key="nodeKey"
     :registed-events="registedEvents"
     :data="catalog"
     :props="defaultProps"
     :empty-text="emptyText"
     :highlight-current="highlightCurrent"
+    :expand-on-click-node="expandOnClickNode"
+    :auto-expand-parent="autoExpandParent"
+    :default-expanded-keys="defaultExpandedKeys"
+    :default-checked-keys="defaultCheckedKeys"
     @node-click="handleNodeClick"
     @node-contextmenu="showCatalogMenu">
     </el-tree>
@@ -24,7 +29,7 @@ function showCatalogMenu (event, data, node, tree) {
   catalogMenu.style.left = event.clientX + 'px'
   catalogMenu.style.top = event.clientY + 'px'
   this.$store.dispatch('show', {
-    key: 'showCatalogMenu',
+    key: 'catalogMenu',
     value: true
   })
   catalogMenu.focus()
@@ -33,7 +38,7 @@ function handelNodeClick (data) {
   try {
     console.log('handelNodeClick: ' + JSON.stringify(data))
     this.$store.dispatch('show', {
-      key: 'showCatalogMenu',
+      key: 'catalogMenu',
       value: false
     })
     if (data.isNote) {
@@ -78,7 +83,8 @@ export default {
   name: 'Catalog',
   props: {
     'catalog': Array,
-    'registedEvents': Array
+    'registedEvents': Array,
+    'nodeKey': String
   },
   data () {
     return {
@@ -87,7 +93,19 @@ export default {
         label: 'label'
       },
       emptyText: '',
-      highlightCurrent: true
+      highlightCurrent: true,
+      expandOnClickNode: false,
+      autoExpandParent: true
+    }
+  },
+  computed: {
+    defaultExpandedKeys: function () {
+      const activeCatalog = this.$store.getters.activeCatalog
+      return [activeCatalog.id]
+    },
+    defaultCheckedKeys: function () {
+      const activeCatalog = this.$store.getters.activeCatalog
+      return [activeCatalog.id]
     }
   },
   methods: {

@@ -9,14 +9,13 @@ const state = {
   activeNote: {},
   // 当前选中进行操作的节点
   selectedNode: {},
-  // 显示catalog-menu
-  showCatalogMenu: false,
-  // 显示delete-dialog
-  showDeleteDialog: false,
-  // 显示rename-dialog
-  showRenameDialog: false,
-  // 显示change-catalog-dialog
-  showChangeCatalogDialog: false,
+  // 控制显示
+  show: {
+    catalogMenu: false,
+    deleteDialog: false,
+    renameDialog: false,
+    changeCatalogDialog: false
+  },
   // 更新目录
   update: {}
 }

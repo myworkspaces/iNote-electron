@@ -20,7 +20,7 @@ import Catalog from './Catalog'
 
 function closeChangeCatalogDialog () {
   this.$store.dispatch('show', {
-    key: 'showChangeCatalogDialog',
+    key: 'changeCatalogDialog',
     value: false
   })
 }

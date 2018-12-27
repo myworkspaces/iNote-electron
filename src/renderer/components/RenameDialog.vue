@@ -15,7 +15,7 @@
 <script>
 function closeRenameDialog () {
   this.$store.dispatch('show', {
-    key: 'showRenameDialog',
+    key: 'renameDialog',
     value: false
   })
 }

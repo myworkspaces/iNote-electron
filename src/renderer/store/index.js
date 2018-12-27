@@ -12,10 +12,10 @@ const getters = {
   activeCatalog: state => state.activeCatalog,
   activeNote: state => state.activeNote,
   selectedNode: state => state.selectedNode,
-  showCatalogMenu: state => state.showCatalogMenu,
-  showDeleteDialog: state => state.showDeleteDialog,
-  showRenameDialog: state => state.showRenameDialog,
-  showChangeCatalogDialog: state => state.showChangeCatalogDialog,
+  showCatalogMenu: state => state.show.catalogMenu,
+  showDeleteDialog: state => state.show.deleteDialog,
+  showRenameDialog: state => state.show.renameDialog,
+  showChangeCatalogDialog: state => state.show.changeCatalogDialog,
   updateCatalog: state => state.update.catalog
 }
 

@@ -10,7 +10,7 @@
             </el-dropdown-menu>
         </el-dropdown>
 
-        <catalog :catalog="catalog" :registed-events="['showCatalogMenu', 'handleNodeClick']"></catalog>
+        <catalog :nodeKey="nodeKey" :catalog="catalog" :registed-events="['showCatalogMenu', 'handleNodeClick']"></catalog>
     </div>
 </template>
 
@@ -21,6 +21,11 @@ export default {
   name: 'Toolbar',
   components: {
     catalog: Catalog
+  },
+  data () {
+    return {
+      nodeKey: 'id'
+    }
   },
   computed: {
     catalog () {

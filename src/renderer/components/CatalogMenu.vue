@@ -30,7 +30,7 @@ function closeCatalogMenu () {
   clearTimeout(timeout)
   timeout = setTimeout(() => {
     this.$store.dispatch('show', {
-      key: 'showCatalogMenu',
+      key: 'catalogMenu',
       value: false
     })
   }, 500)
@@ -68,19 +68,19 @@ export default {
     },
     showRenameDialog (event) {
       this.$store.dispatch('show', {
-        key: 'showRenameDialog',
+        key: 'renameDialog',
         value: true
       })
     },
     showChangeCatalogDialog (event) {
       this.$store.dispatch('show', {
-        key: 'showChangeCatalogDialog',
+        key: 'changeCatalogDialog',
         value: true
       })
     },
     showDeleteDialog (event) {
       this.$store.dispatch('show', {
-        key: 'showDeleteDialog',
+        key: 'deleteDialog',
         value: true
       })
     },

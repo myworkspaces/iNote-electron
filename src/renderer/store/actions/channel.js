@@ -38,7 +38,7 @@ const devchannel = {
       callback()
     },
     findAllByCatalogId: (catalogId, callback) => {
-      console.log(savedNoteList)
+      console.log('savedNoteList', savedNoteList)
       let noteList = []
       savedNoteList.forEach(item => {
         if (item.catalog_id === catalogId && item.is_delete === false) {

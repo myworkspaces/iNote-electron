@@ -11,7 +11,7 @@
 <script>
 function closeDeleteDialog () {
   this.$store.dispatch('show', {
-    key: 'showDeleteDialog',
+    key: 'deleteDialog',
     value: false
   })
 }

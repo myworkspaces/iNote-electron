@@ -7,7 +7,7 @@
       <el-container>
         <el-aside width="200px">
           <search></search>
-          <catalog :catalog="catalog" :registed-events="['showCatalogMenu', 'handleNodeClick']"></catalog>
+          <catalog :nodeKey="nodeKey" :catalog="catalog" :registed-events="['showCatalogMenu', 'handleNodeClick']"></catalog>
         </el-aside>
         <el-main class="editor">
           <editor :note="note"></editor>
@@ -48,6 +48,11 @@ export default {
     'delete-dialog': DeleteDialog,
     'rename-dialog': RenameDialog,
     'change-catalog-dialog': ChangeCatalogDialog
+  },
+  data () {
+    return {
+      nodeKey: 'id'
+    }
   },
   computed: {
     catalog () {
