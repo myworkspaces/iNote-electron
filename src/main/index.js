@@ -1,6 +1,6 @@
 // Modules to control application life and create native browser window
 const {app, BrowserWindow, Menu} = require('electron')
-
+const {menu} = require('./menu')
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
@@ -10,9 +10,13 @@ function createWindow () {
   mainWindow = new BrowserWindow({width: 800, height: 600})
 
   // and load the index.html of the app.
-  mainWindow.loadFile('dist/index.html')
-  // mainWindow.loadURL('http://localhost:8080')
-  // Menu.setApplicationMenu(null)
+  if (process.env.NODE_ENV === 'production') {
+    mainWindow.loadFile('index.html')
+  } else {
+    mainWindow.loadURL('http://localhost:8080')
+  }
+
+  Menu.setApplicationMenu(Menu.buildFromTemplate(menu))
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
