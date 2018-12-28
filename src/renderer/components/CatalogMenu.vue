@@ -85,7 +85,14 @@ export default {
       })
     },
     handleCommand: function (command) {
-      let catalog = this.$store.getters.activeCatalog
+      const selectedNode = this.$store.getters.selectedNode
+      if (selectedNode.id && !selectedNode.isNote) {
+        // 如果当前选中节点对象为目录，则自动切换当前目录为当前选中节点对象
+        this.$store.dispatch('activeCatalog', {
+          catalog: selectedNode
+        })
+      }
+      const catalog = this.$store.getters.activeCatalog
       if (command === 'newNote') {
         // 创建笔记
         this.$store.dispatch('addNote', {

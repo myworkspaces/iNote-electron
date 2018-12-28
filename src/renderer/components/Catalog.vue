@@ -9,7 +9,7 @@
     :expand-on-click-node="expandOnClickNode"
     :auto-expand-parent="autoExpandParent"
     :default-expanded-keys="defaultExpandedKeys"
-    :default-checked-keys="defaultCheckedKeys"
+    :current-node-key="currentNodeKey"
     @node-click="handleNodeClick"
     @node-contextmenu="showCatalogMenu">
     </el-tree>
@@ -103,9 +103,10 @@ export default {
       const activeCatalog = this.$store.getters.activeCatalog
       return [activeCatalog.id]
     },
-    defaultCheckedKeys: function () {
+    currentNodeKey: function () {
+      // @todo: 这是一个bug，data发生变化的时候不会选择当前节点
       const activeCatalog = this.$store.getters.activeCatalog
-      return [activeCatalog.id]
+      return activeCatalog.id
     }
   },
   methods: {
