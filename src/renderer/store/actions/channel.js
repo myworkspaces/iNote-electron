@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+import electron from './electron'
 
 let nextNoteId = 1
 let nextCatalogId = 1
@@ -96,13 +97,14 @@ const devchannel = {
 
 const channel = {
   get: (name) => {
-    let attr = null
-    if (typeof window.channel === 'undefined') {
-      attr = devchannel[name]
-    } else {
-      attr = window.channel.objects[name]
-    }
-    return attr
+    // let attr = null
+    // if (typeof window.channel === 'undefined') {
+    //   attr = devchannel[name]
+    // } else {
+    //   attr = window.channel.objects[name]
+    // }
+    // return attr
+    return electron[name]
   }
 }
 

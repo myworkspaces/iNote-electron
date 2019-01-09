@@ -6,8 +6,8 @@ function resetCatalog (store, payload) {
     const catalogMessager = channel.get('catalogMessager')
     // 从服务端获取catalog.json, catalog.kv.json
     catalogMessager.initCatalog(function (data) {
-      // console.log(data)
       const initCatalog = JSON.parse(data)
+      console.log(initCatalog)
       store.commit('resetCatalog', {
         catalog: initCatalog.catalog,
         catalogKv: initCatalog.catalogKv
