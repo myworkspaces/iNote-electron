@@ -17,3 +17,5 @@ selenium-debug.log
 *.sln
 
 开发者文档.md
+catalog.json
+catalog.kv.json

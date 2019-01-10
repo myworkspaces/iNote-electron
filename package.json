@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "run-p dev:*",
     "dev:renderer": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
-    "dev:main": "electron .",
+    "dev:main": "chcp 65001 && electron .",
     "start": "npm run dev",
     "unit": "jest --config test/unit/jest.conf.js --coverage",
     "e2e": "node test/e2e/runner.js",
@@ -21,6 +21,7 @@
   "dependencies": {
     "ant-design-vue": "^1.1.7",
     "element-ui": "^2.4.9",
+    "mongodb": "^3.1.10",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
@@ -47,6 +48,7 @@
     "copy-webpack-plugin": "^4.0.1",
     "cross-spawn": "^5.0.1",
     "css-loader": "^0.28.0",
+    "electron": "^4.0.1",
     "eslint": "^4.15.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-friendly-formatter": "^3.0.0",

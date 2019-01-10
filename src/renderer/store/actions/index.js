@@ -6,17 +6,19 @@ function resetCatalog (store, payload) {
     const catalogMessager = channel.get('catalogMessager')
     // 从服务端获取catalog.json, catalog.kv.json
     catalogMessager.initCatalog(function (data) {
-      const initCatalog = JSON.parse(data)
-      console.log(initCatalog)
-      store.commit('resetCatalog', {
-        catalog: initCatalog.catalog,
-        catalogKv: initCatalog.catalogKv
-      })
-      if (payload && payload.activeCatalog) {
-        // 设置当前目录
-        activeCatalog(store, {
-          catalog: initCatalog.catalog[0]
+      if (data) {
+        const initCatalog = JSON.parse(data)
+        console.log(initCatalog)
+        store.commit('resetCatalog', {
+          catalog: initCatalog.catalog,
+          catalogKv: initCatalog.catalogKv
         })
+        if (payload && payload.activeCatalog) {
+          // 设置当前目录
+          activeCatalog(store, {
+            catalog: initCatalog.catalog[0]
+          })
+        }
       }
     })
   } catch (err) {

@@ -13,39 +13,65 @@ const demo = function () {
 
 const noteMessager = {
   add: (data, callback) => {
-    ipcRenderer.on('noteMessager.add.reply', (event, noteId) => {
+    ipcRenderer.once('noteMessager.add.reply', (event, noteId) => {
       callback(noteId)
     })
     ipcRenderer.send('noteMessager.add', data)
   },
+  update: (data, callback) => {
+    ipcRenderer.once('noteMessager.update.reply', (event) => {
+      callback()
+    })
+    ipcRenderer.send('noteMessager.update', data)
+  },
+  delete: (data, callback) => {
+    ipcRenderer.once('noteMessager.delete.reply', (event) => {
+      callback()
+    })
+    ipcRenderer.send('noteMessager.delete', data)
+  },
   findAllByCatalogId: (catalogId, callback) => {
-    ipcRenderer.on('noteMessager.findAllByCatalogId.reply', (event, noteList) => {
+    ipcRenderer.once('noteMessager.findAllByCatalogId.reply', (event, noteList) => {
       callback(noteList)
     })
     ipcRenderer.send('noteMessager.findAllByCatalogId', catalogId)
-
-    // let noteList = ipcRenderer.sendSync('noteMessager.findAllByCatalogId', catalogId)
-    // console.log('noteList:', noteList)
-    // callback(noteList)
   }
 }
 
 const catalogMessager = {
   initCatalog: (callback) => {
-    ipcRenderer.on('catalogMessager.initCatalog.reply', (event, data) => {
+    ipcRenderer.once('catalogMessager.initCatalog.reply', (event, data) => {
       callback(data)
     })
     ipcRenderer.send('catalogMessager.initCatalog')
-
-    // let data = ipcRenderer.sendSync('catalogMessager.initCatalog')
-    // callback(data)
   },
   updateCatalog: (data, callback) => {
-
+    ipcRenderer.once('catalogMessager.updateCatalog.reply', (event) => {
+      callback()
+    })
+    ipcRenderer.send('catalogMessager.updateCatalog', data)
+  },
+  add: (catalog, callback) => {
+    ipcRenderer.once('catalogMessager.add.reply', (event, catalogId) => {
+      callback(catalogId)
+    })
+    ipcRenderer.send('catalogMessager.add', catalog)
+  },
+  update: (data, callback) => {
+    ipcRenderer.once('catalogMessager.update.reply', (event) => {
+      callback()
+    })
+    ipcRenderer.send('catalogMessager.update', data)
+  },
+  delete: (data, callback) => {
+    ipcRenderer.once('catalogMessager.delete.reply', (event) => {
+      callback()
+    })
+    ipcRenderer.send('catalogMessager.delete', data)
   }
 }
 
-const searchMessager = {
+const searcherMessager = {
   add: (data, callback) => {},
   update: (data, callback) => {},
   delete: (data, callback) => {},
@@ -56,7 +82,7 @@ const electron = {
   demo: demo,
   noteMessager: noteMessager,
   catalogMessager: catalogMessager,
-  searchMessager: searchMessager
+  searcherMessager: searcherMessager
 }
 
 export default electron
