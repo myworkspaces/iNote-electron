@@ -1,5 +1,12 @@
 // Modules to control application life and create native browser window
 const {app, BrowserWindow, Menu, ipcMain} = require('electron')
+
+// @todo: 热加载无效...
+// const path = require('path')
+// require('electron-reload')(__dirname, {
+//   electron: path.join(__dirname, '..', '..', 'node_modules', '.bin', 'electron')
+// })
+
 const {menu} = require('./menu')
 
 // 开启消息监听

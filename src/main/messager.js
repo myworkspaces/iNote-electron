@@ -1,12 +1,12 @@
-const path = require('path')
+// const path = require('path')
 const fs = require('fs')
 const events = require('events')
 const { MongoClient, ObjectID } = require('mongodb')
 const mongodbUrl = 'mongodb://localhost:27017'
 const dbName = 'note'
 
-const catalogFile = path.resolve(__dirname, 'catalog.json')
-const catalogKvFile = path.resolve(__dirname, 'catalog.kv.json')
+const catalogFile = 'catalog.json'
+const catalogKvFile = 'catalog.kv.json'
 
 const reply = function (callback) {
   var myEvent = new events.EventEmitter()
@@ -52,7 +52,7 @@ module.exports = function (ipcMain) {
       })
     })
   })
-  // 更新笔记
+  // @todo: 更新笔记
   ipcMain.on('noteMessager.update', (event, note) => {
     console.log(note)
     var newNote = JSON.parse(note)
@@ -64,6 +64,7 @@ module.exports = function (ipcMain) {
       }
       console.log('连接数据库成功')
       var dbase = client.db(dbName)
+      // @todo: 更新失败
       dbase.collection('note').updateOne({'_id': ObjectID(newNote.id)}, {$set: newNote}, function (err, res) {
         if (err) {
           throw err
@@ -162,6 +163,7 @@ module.exports = function (ipcMain) {
       fs.writeFile(catalogFile, JSON.stringify(newData.catalog), function (err) {
         if (err) {
           console.log('updateCatalog:', err)
+          throw err
         } else {
           count++
           emitReply(myEvent)
@@ -172,6 +174,7 @@ module.exports = function (ipcMain) {
       fs.writeFile(catalogKvFile, JSON.stringify(newData.catalogKv), function (err) {
         if (err) {
           console.log('updateCatalog:', err)
+          throw err
         } else {
           count++
           emitReply(myEvent)
@@ -201,12 +204,28 @@ module.exports = function (ipcMain) {
   })
   // @todo: 更新目录
   ipcMain.on('catalogMessager.update', (event, catalog) => {
+    console.log('aaaaaaaaaaaaaaaaaaaaa')
     console.log(catalog)
+    // console.log('bbbbbbbbbbbbbbbbbbbbb')
     event.sender.send('catalogMessager.update.reply')
   })
-  // @todo: 删除目录
+  // 删除目录
   ipcMain.on('catalogMessager.delete', (event, catalog) => {
     console.log(catalog)
-    event.sender.send('catalogMessager.delete.reply')
+    MongoClient.connect(mongodbUrl, {useNewUrlParser: true}, function (err, client) {
+      if (err) {
+        throw err
+      }
+      console.log('连接数据库成功')
+      var dbase = client.db(dbName)
+      dbase.collection('catalog').deleteOne({'_id': ObjectID(JSON.parse(catalog).id)}, function (err, obj) {
+        if (err) {
+          throw err
+        }
+        console.log('删除目录成功')
+        client.close()
+        event.sender.send('catalogMessager.delete.reply')
+      })
+    })
   })
 }
