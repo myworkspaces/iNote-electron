@@ -4,7 +4,7 @@ const {app, BrowserWindow, Menu, ipcMain} = require('electron')
 // @todo: 热加载无效...
 // const path = require('path')
 // require('electron-reload')(__dirname, {
-//   electron: path.join(__dirname, '..', '..', 'node_modules', '.bin', 'electron')
+//   electron: path.join(__dirname, '..', '..', 'node_modules', '.bin', 'electron.cmd')
 // })
 
 const {menu} = require('./menu')

@@ -10,7 +10,8 @@ selenium-debug.log
 
 # Editor directories and files
 .idea
-.vscode
+# .vscode
+!.vscode/launch.json
 *.suo
 *.ntvs*
 *.njsproj

@@ -206,7 +206,7 @@ module.exports = function (ipcMain) {
   ipcMain.on('catalogMessager.update', (event, catalog) => {
     console.log('aaaaaaaaaaaaaaaaaaaaa')
     console.log(catalog)
-    // console.log('bbbbbbbbbbbbbbbbbbbbb')
+    console.log('bbbbbbbbbbbbbbbbbbbbb')
     event.sender.send('catalogMessager.update.reply')
   })
   // 删除目录
